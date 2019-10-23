@@ -1,0 +1,74 @@
+html {
+    margin: 0;
+    padding: 0;
+    background-color: rgb(255, 255, 255);
+}
+
+body{
+    background-image: linear-gradient(rgba(255, 255, 255, 0.288), white) ,url("/logo.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}
+
+.c71a20{
+    background-color: #3b3b3b;
+    /* background-color: #c71a20; */
+}
+
+.c71a20:hover {
+    background-color: #020202;
+    /* background-color: #7a0609; */
+}
+
+.search-bg{
+    background-color: #9c9c9c56;
+}
+
+.hoverEffect:hover{
+    background-color: rgba(0, 0, 0, 0.048);
+}
+
+.hoverEffect2{
+    background-color: rgba(0, 0, 0, 0.993);
+}
+
+
+.info{
+    background-color: #66666611 ;
+}
+
+.list-group .active{
+    background-color : rgb(36, 36, 36) !important;
+}
+
+.tab-content .active{
+    background-color : rgba(255, 255, 255, 0) !important;
+}
+
+.cursive{
+    font-family: cursive;
+}
+
+.list-group-item{
+    background-color: none !important;
+}
+
+.alert {
+    padding: 10px;
+    color: rgb(255, 255, 255);
+    margin-bottom: 0;
+    border-radius: 0;
+  }
+  
+  .alert.error{
+    background-color: #f1281e;
+  } 
+  .alert.success{
+      background-color: rgb(28, 153, 28);
+  }
+
+  .closebtn {
+      float: right;
+      cursor: pointer;
+  }

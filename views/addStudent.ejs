@@ -1,0 +1,222 @@
+<% include ./partials/header.ejs %>
+<style>
+body {font-family: Arial, Helvetica, sans-serif;}
+
+/* Full-width input fields */
+input[type=text], input[type=password] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+/* Set a style for all buttons */
+button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+/* Extra styles for the cancel button */
+.cancelbtn {
+  width: auto;
+  padding: 10px 18px;
+  background-color: #f44336;
+}
+
+/* Center the image and position the close button */
+.imgcontainer {
+  text-align: center;
+  margin: 24px 0 12px 0;
+  position: relative;
+}
+
+img.avatar {
+  width: 40%;
+  border-radius: 50%;
+}
+
+
+span.psw {
+  float: right;
+  padding-top: 16px;
+}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  padding-top: 60px;
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button (x) */
+.close {
+  position: absolute;
+  right: 25px;
+  top: 0;
+  color: #000;
+  font-size: 35px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: red;
+  cursor: pointer;
+}
+
+/* Add Zoom Animation */
+.animate {
+  -webkit-animation: animatezoom 0.6s;
+  animation: animatezoom 0.6s
+}
+
+@-webkit-keyframes animatezoom {
+  from {-webkit-transform: scale(0)} 
+  to {-webkit-transform: scale(1)}
+}
+  
+@keyframes animatezoom {
+  from {transform: scale(0)} 
+  to {transform: scale(1)}
+}
+
+/* Change styles for span and cancel button on extra small screens */
+@media screen and (max-width: 300px) {
+  span.psw {
+     display: block;
+     float: none;
+  }
+  .cancelbtn {
+     width: 100%;
+  }
+}
+</style>
+
+<div class="row">
+  <div class="bg-light col my-2 m-5">
+    <h3 class="font-weight-bold text-center m-2 text-dark">Add Student</h3>
+  
+  
+  <form action="/addstudent" method="POST" class="">
+    <div class="form-group">
+      <label for="sid">Student ID</label>
+      <input name="sid" type="number" class="form-control" id="sid" placeholder="StudentID" value="<%= students.rows.length + 1 %>" readonly>
+    </div>
+    <div class="form-group">
+      <label for="sname">Student Name</label>
+      <input name="sname" type="text" class="form-control" id="sname" placeholder="Name" required>
+    </div>
+    <div class="form-group">
+      <label for="ControlSelect1">Gender</label>
+      <select name="gender" class="form-control" id="ControlSelect1" required>
+        <option>M</option>
+        <option>F</option>
+        <option>Other</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="year">Year</label>
+      <select name="year" class="form-control" id="year" required>
+        <option selected value="2019">2019</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="section">Section</label>
+      <select name="section" class="form-control" id="section" required>
+        <% sections.rows.forEach( el => { %>
+          <option value="<%= el[0] %>"><%= el[1] %></option>
+        <% }) %>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="department">Department</label>
+      <select name="department" class="form-control" id="department" required>
+          <% departments.rows.forEach( el => { %>
+            <option value="<%= el[0] %>"><%= el[1] %></option>
+          <% }) %>
+      </select>
+    </div>
+  
+  <div id="id01" class="modal p-5">
+    
+    <div class="modal-content animate col-12 col-md-6 col-lg-5">
+      <div class="imgcontainer">
+        <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0JM0itXg28v2KRr2Ngh3b6yDhEcAFSHGC6EMwtk0fj7Qph206" alt="Avatar" class="avatar">
+      </div>
+  
+      <div class="container">
+        <div class="form-group">
+          <label for="insid">Instructor ID</label>
+          <input name="username" type="text" class="form-control" id="insid" aria-describedby="insidHelp" placeholder="Enter instructor id" required>
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">Password</label>
+          <input name="password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" required>
+        </div>
+        <button type="submit" class="btn btn-dark">Submit</button>
+      </div>
+  
+    </div>
+  </div>
+  </form>
+  
+  <div class="col-12 col-sm-8 col-md-6 mx-auto">
+  <button class="btn btn-dark" onclick="document.getElementById('id01').style.display='block'">Add</button>
+  </div>
+  </div>
+  
+  <div class="col my-2 m-5">
+    <table class="table table-striped table-dark">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Name</th>
+          <th scope="col">Gender</th>
+          <th scope="col">Year</th>
+          <th scope="col">Department</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% students.rows.forEach( el => { %>
+          <tr>
+              <th scope="row"><%= el[0] %></th>
+              <td><%= el[1] %></td>
+              <td><%= el[2] %></td>
+              <td><%= el[3] %></td>
+              <td><%= departments.rows[el[5]-1][1] %></td>
+            </tr>
+        <% } ) %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<% include ./partials/footer.ejs %>

@@ -1,0 +1,213 @@
+<% include ./partials/header.ejs %>
+<style>
+body {font-family: Arial, Helvetica, sans-serif;}
+
+/* Full-width input fields */
+input[type=text], input[type=password] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+/* Set a style for all buttons */
+button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+/* Extra styles for the cancel button */
+.cancelbtn {
+  width: auto;
+  padding: 10px 18px;
+  background-color: #f44336;
+}
+
+/* Center the image and position the close button */
+.imgcontainer {
+  text-align: center;
+  margin: 24px 0 12px 0;
+  position: relative;
+}
+
+img.avatar {
+  width: 40%;
+  border-radius: 50%;
+}
+
+
+span.psw {
+  float: right;
+  padding-top: 16px;
+}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  padding-top: 60px;
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button (x) */
+.close {
+  position: absolute;
+  right: 25px;
+  top: 0;
+  color: #000;
+  font-size: 35px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: red;
+  cursor: pointer;
+}
+
+/* Add Zoom Animation */
+.animate {
+  -webkit-animation: animatezoom 0.6s;
+  animation: animatezoom 0.6s
+}
+
+@-webkit-keyframes animatezoom {
+  from {-webkit-transform: scale(0)} 
+  to {-webkit-transform: scale(1)}
+}
+  
+@keyframes animatezoom {
+  from {transform: scale(0)} 
+  to {transform: scale(1)}
+}
+
+/* Change styles for span and cancel button on extra small screens */
+@media screen and (max-width: 300px) {
+  span.psw {
+     display: block;
+     float: none;
+  }
+  .cancelbtn {
+     width: 100%;
+  }
+}
+</style>
+
+<div class="my-3"></div>
+<div class="search-bg p-2 mb-5">
+    <form class="needs-validation m-0" action="/updateGrades/id" method="POST" novalidate>
+    <div class="form-group form-inline">
+    <input name="id" type="text" class="form-control col-md-9 mr-md-2 rounded-pill" id="gradeSearch" placeholder="StudentID">
+    <button type="submit" class="btn my-1 c71a20 col-12 col-sm-2 btn-sm text-white rounded-pill font-weight-bold">GetStudentInfo</button>
+    </div>
+    <p style="font-size: 0.7rem ; color: rgba(248, 0, 0, 0.829);">
+        Get Student Grade Information
+    </p>
+    </form>
+</div>
+
+<div class="my-3"></div>
+
+
+<% if(student.length != 0) { %>
+
+  <div class="bg-light col-12 col-sm-7 col-md-5 mx-auto my-2">
+      <h3 class="font-weight-bold text-center m-2 text-dark">Add Grades</h3>
+    
+     
+    
+    
+    <form action="/updateGrades" method="POST" class="">
+     <% if(student.length != 0) { %>
+      <div class="form-group">
+        <label for="sid">Student ID</label>
+        <input name="sid" type="number" class="form-control" id="sid" placeholder="StudentID" value="<%= student.rows[0][0] %>" readonly>
+      </div>
+     <% } %>
+     <% if(grade.length != 0) { %>
+      <% course.rows.forEach( el => { %>
+        <div class="form-row">
+          <div class="col">
+            <div class="form-group row">
+              <label for="grade-<%= el[0] %>" class="col-sm-4 col-form-label"><%= el[1] %></label>
+              <div class="col-sm-8">
+                <% if(grade.rows.length != 0){ %>
+                <% let loop = 0; %>
+                  <% grade.rows.forEach( oldGrade => { loop += 1; %>
+                    <% if(oldGrade[1] == el[0]) { loop -= 1; %>
+                    <input type="number" class="form-control" id="grade-<%= el[0] %>" value="<%= oldGrade[2] %>" placeholder="CourseGrade" readonly>
+                    <% } %>
+                  <% }); %>
+                  <% if (loop == grade.rows.length) { %>
+                      <input type="number" name="<%= el[0] %>" class="form-control" id="grade-<%= el[0] %>" placeholder="CourseGrade" required>
+                  <% } %>
+                <% }  else { %>
+                  <input type="number" name="<%= el[0] %>" class="form-control" id="grade-<%= el[0] %>" placeholder="CourseGrade" required>
+                <% } %>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      <% }); %>
+     <% } %>
+     
+    
+    <div id="id01" class="modal p-5">
+      
+      <div class="modal-content animate col-12 col-md-6 col-lg-5">
+        <div class="imgcontainer">
+          <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0JM0itXg28v2KRr2Ngh3b6yDhEcAFSHGC6EMwtk0fj7Qph206" alt="Avatar" class="avatar">
+        </div>
+    
+        <div class="container">
+          <div class="form-group">
+            <label for="insid">Instructor ID</label>
+            <input type="text" name="insid" class="form-control" id="insid" aria-describedby="insidHelp" placeholder="Enter instructor id" required>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1">Password</label>
+            <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password" required>
+          </div>
+          <button type="submit" class="btn btn-dark">Submit</button>
+        </div>
+    
+      </div>
+    </div>
+    </form>
+    
+    <div class="col-12 col-sm-8 col-md-6 m-auto">
+    <button class="btn btn-dark" onclick="document.getElementById('id01').style.display='block'">Update</button>
+    </div>
+    </div>
+
+<% } %>
+
+<% include ./partials/footer.ejs %>
